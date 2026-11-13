@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ghunt Cold Coffee Co. · 72 Hours Fresh</title>
+<meta name="description" content="Ghunt Cold Coffee Co. Single-estate Arabica cold brew, bottled in amber glass with zero preservatives. Fresh for 72 hours, then gone. Track your bottle live.">
+<meta name="theme-color" content="#140c08">
+<meta property="og:title" content="Ghunt Cold Coffee Co. · 72 Hours Fresh">
+<meta property="og:description" content="Sip the chill, feel the thrill. Track your bottle's 72-hour freshness live.">
+<meta property="og:image" content="assets/bottle.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23140c08'/%3E%3Ctext x='32' y='45' font-family='Arial Black,Arial' font-weight='900' font-size='40' text-anchor='middle' fill='%23f3e3cc'%3Eg%3C/text%3E%3Ccircle cx='46' cy='14' r='5' fill='%23e0952f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#140c08; --bg2:#1c120c; --card:#24170f; --card2:#2d1d13; --line:rgba(243,227,204,.10);
+  --cream:#f3e3cc; --cream2:#d9c4a6; --muted:#a8917a; --caramel:#e0952f; --amber:#f2b45a; --gold:#ffcf7a;
+  --brick:#c0522f; --green:#7fc77a; --danger:#ef6b4a;
+  --display:"Fraunces",Georgia,serif; --body:"Manrope",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --r:22px; --pad:clamp(16px,4vw,48px); --max:1220px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+body{overflow-x:clip;background:var(--bg);color:var(--cream);font-family:var(--body);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--caramel);color:var(--bg)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font:700 12px/1 var(--body);letter-spacing:.28em;text-transform:uppercase;color:var(--caramel);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:2px;background:currentColor;border-radius:2px}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.02em}
+h2{font-size:clamp(36px,5.6vw,72px)}
+h2 em,h1 em{font-style:italic;color:var(--amber);font-weight:500}
+.lede{color:var(--cream2);font-size:clamp(16px,1.5vw,19px);max-width:56ch}
+section{position:relative;padding:clamp(80px,11vw,150px) 0}
+
+/* grain + glow background */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#cursorGlow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;left:0;top:0;
+  background:radial-gradient(circle,rgba(224,149,47,.13),transparent 62%);transform:translate(-50%,-50%);transition:opacity .4s}
+#bubbles{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+main,header,footer{position:relative;z-index:1}
+
+/* scroll progress */
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:60;
+  background:linear-gradient(90deg,var(--caramel),var(--gold))}
+
+/* NAV */
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(calc(100% - 24px),1180px);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 22px;border-radius:999px;
+  background:rgba(28,18,12,.62);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+  border:1px solid var(--line);transition:background .3s, top .3s}
+nav.scrolled{background:rgba(20,12,8,.86);top:8px}
+.brand{font:800 26px/1 var(--body);letter-spacing:-.04em;display:flex;align-items:baseline;gap:2px}
+.brand .u{color:var(--caramel)}
+.brand small{font:700 9px/1 var(--body);letter-spacing:.22em;color:var(--muted);margin-left:10px;text-transform:uppercase}
+.navlinks{display:flex;gap:4px}
+.navlinks a{font:600 14px var(--body);color:var(--cream2);padding:9px 14px;border-radius:999px;transition:.25s}
+.navlinks a:hover{color:var(--cream);background:rgba(243,227,204,.07)}
+.livepill{display:inline-flex;align-items:center;gap:9px;font:700 13px var(--mono);padding:10px 16px;border-radius:999px;
+  background:var(--cream);color:var(--bg);white-space:nowrap;transition:transform .25s}
+.livepill:hover{transform:scale(1.04)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(127,199,122,.7);animation:ping 1.8s infinite}
+.livepill .dot{background:#2f9a3b}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(127,199,122,.6)}80%,100%{box-shadow:0 0 0 10px rgba(127,199,122,0)}}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;align-items:center;padding:130px 0 70px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(30px,5vw,70px);align-items:center;width:100%}
+.hero h1{font-size:clamp(50px,8.4vw,118px);margin:22px 0 24px}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line span{display:inline-block;transform:translateY(110%);animation:rise 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 .line:nth-child(2) span{animation-delay:.12s}
+.hero h1 .line:nth-child(3) span{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.fadeup{opacity:0;transform:translateY(24px);animation:fu 1s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes fu{to{opacity:1;transform:none}}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;font:700 15px var(--body);padding:16px 26px;border-radius:999px;overflow:hidden;transition:transform .25s, box-shadow .25s}
+.btn-primary{background:linear-gradient(135deg,var(--amber),var(--caramel));color:#1a0f08;box-shadow:0 12px 40px -10px rgba(224,149,47,.6)}
+.btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);animation:shine 3.6s infinite}
+@keyframes shine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.btn-ghost{border:1px solid rgba(243,227,204,.25);color:var(--cream)}
+.btn:hover{transform:translateY(-3px)}
+.btn-ghost:hover{background:rgba(243,227,204,.07)}
+
+.minitimer{display:inline-flex;align-items:center;gap:14px;margin-top:6px;padding:12px 18px 12px 14px;border-radius:16px;background:rgba(243,227,204,.05);border:1px solid var(--line)}
+.minitimer .lbl{font:600 12px var(--body);color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.minitimer .t{font:800 22px var(--mono);color:var(--gold);letter-spacing:.02em}
+
+.stage{position:relative;aspect-ratio:.8;max-width:500px;justify-self:center;width:100%}
+.arch{position:absolute;inset:0;border-radius:999px 999px 30px 30px;overflow:hidden;
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.8), inset 0 0 0 1px rgba(243,227,204,.12);
+  background:#3a2a20;opacity:0;animation:fu 1.2s .2s cubic-bezier(.2,.8,.2,1) forwards}
+.arch img{width:100%;height:100%;object-fit:cover;object-position:30% 30%;transform:scale(1.12);animation:slowzoom 14s ease-in-out infinite alternate}
+@keyframes slowzoom{to{transform:scale(1.2) translateY(-2%)}}
+.arch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,12,8,0) 55%,rgba(20,12,8,.75));}
+.halo{position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(224,149,47,.35),transparent 60%);filter:blur(20px);animation:breathe 6s ease-in-out infinite;z-index:-1}
+@keyframes breathe{50%{transform:scale(1.08);opacity:.7}}
+.badge{position:absolute;width:150px;height:150px;left:-46px;top:12%;z-index:3;animation:spin 22s linear infinite}
+.badge text{font:800 10.5px var(--body);letter-spacing:.32em;fill:var(--cream);text-transform:uppercase}
+.badge-core{position:absolute;left:-46px;top:12%;width:150px;height:150px;display:grid;place-items:center;z-index:4;pointer-events:none}
+.badge-core b{width:70px;height:70px;border-radius:50%;background:var(--caramel);color:var(--bg);display:grid;place-items:center;font:800 22px var(--mono);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.floatcard{position:absolute;z-index:5;right:-22px;bottom:12%;padding:16px 18px;border-radius:18px;min-width:210px;
+  background:rgba(28,18,12,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(243,227,204,.14);
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.7);animation:bob 5s ease-in-out infinite}
+.floatcard .k{font:700 10px var(--body);letter-spacing:.2em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.floatcard .v{font:800 28px var(--mono);color:var(--cream);margin:6px 0 10px}
+.bar{height:6px;border-radius:6px;background:rgba(243,227,204,.1);overflow:hidden}
+.bar i{display:block;height:100%;width:50%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--caramel));transition:width 1s}
+.pricechip{position:absolute;z-index:5;left:6%;bottom:-18px;padding:12px 18px;border-radius:16px;background:var(--cream);color:var(--bg);
+  font:800 15px var(--body);display:flex;gap:10px;align-items:center;box-shadow:0 20px 50px -14px rgba(0,0,0,.7);animation:bob 6s 1s ease-in-out infinite}
+.pricechip b{font:800 26px var(--display)}
+@keyframes bob{50%{transform:translateY(-12px)}}
+.ice{position:absolute;z-index:4;width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(200,230,255,.12));
+  border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(3px);box-shadow:inset 0 0 18px rgba(255,255,255,.35),0 10px 30px rgba(0,0,0,.3);animation:tumble 9s ease-in-out infinite}
+.ice.i1{right:8%;top:-10px;transform:rotate(18deg)}
+.ice.i2{right:-30px;top:38%;width:40px;height:40px;animation-delay:-3s}
+@keyframes tumble{50%{transform:translateY(-16px) rotate(-14deg)}}
+.scrollhint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font:600 11px var(--body);letter-spacing:.3em;color:var(--muted);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px}
+.scrollhint i{width:22px;height:36px;border:2px solid rgba(243,227,204,.3);border-radius:12px;position:relative}
+.scrollhint i::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:8px;border-radius:2px;background:var(--caramel);transform:translateX(-50%);animation:wheel 1.8s infinite}
+@keyframes wheel{to{transform:translate(-50%,12px);opacity:0}}
+
+/* MARQUEE */
+.marquee{border-block:1px solid var(--line);background:var(--caramel);color:var(--bg);overflow:hidden;transform:rotate(-1.6deg);margin:20px -20px;position:relative;z-index:2}
+.marquee.alt{background:var(--cream);transform:rotate(1.2deg);margin-top:-46px}
+.track{display:flex;width:max-content;animation:mq 34s linear infinite}
+.marquee.alt .track{animation-direction:reverse;animation-duration:40s}
+.track span{font:800 clamp(18px,2.4vw,28px)/1 var(--body);text-transform:uppercase;letter-spacing:-.01em;padding:18px 0;display:flex;align-items:center;white-space:nowrap}
+.track span::after{content:"✦";margin:0 28px;font-size:.7em}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* TRACKER */
+#batch{padding-top:clamp(100px,12vw,160px)}
+.tracker{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(24px,4vw,60px);align-items:center;margin-top:50px}
+.dial{position:relative;aspect-ratio:1;max-width:470px;width:100%;justify-self:center}
+.dial svg{width:100%;height:100%;overflow:visible}
+.dial .ticks line{stroke:rgba(243,227,204,.18);stroke-width:2}
+.dial .ticks line.major{stroke:rgba(243,227,204,.45);stroke-width:3}
+.ring-bg{fill:none;stroke:rgba(243,227,204,.07);stroke-width:16}
+.ring{fill:none;stroke:url(#ringGrad);stroke-width:16;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s linear,stroke-dasharray 1s linear;filter:drop-shadow(0 0 10px rgba(242,180,90,.55))}
+.ring-mark{fill:var(--danger)}
+.dial-inner{position:absolute;inset:16%;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 30%,#3b2617,#1b100a 70%);box-shadow:inset 0 0 40px rgba(0,0,0,.7),0 0 0 1px rgba(243,227,204,.08)}
+.liquid{position:absolute;left:-50%;width:200%;bottom:0;height:60%;transition:height 1.2s cubic-bezier(.2,.8,.2,1)}
+.liquid svg{position:absolute;left:0;top:-18px;width:100%;height:20px}
+.liquid .w1{animation:wave 6s linear infinite}
+.liquid .w2{animation:wave 9s linear infinite reverse;opacity:.55}
+@keyframes wave{to{transform:translateX(-50%)}}
+.liquid .body{position:absolute;inset:0;background:linear-gradient(180deg,#b86a24,#5a2d10 80%)}
+.liquid .fizz{position:absolute;inset:0;overflow:hidden}
+.liquid .fizz b{position:absolute;bottom:-10px;border-radius:50%;border:1px solid rgba(255,220,170,.55);animation:fizz linear infinite}
+@keyframes fizz{to{transform:translateY(-320px);opacity:0}}
+.readout{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:2;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.readout .k{font:700 11px var(--body);letter-spacing:.26em;text-transform:uppercase;color:var(--cream2)}
+.digits{display:flex;align-items:center;font:800 clamp(34px,6.4vw,60px)/1 var(--mono);margin:10px 0 8px;color:#fff}
+.digits .sep{opacity:.5;margin:0 2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:.15}}
+.dg{position:relative;display:inline-block;width:.62em;height:1.05em;overflow:hidden}
+.dg span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .45s cubic-bezier(.4,1.4,.5,1),opacity .45s}
+.dg span.out{transform:translateY(-100%);opacity:0}
+.dg span.in{transform:translateY(100%);opacity:0}
+.readout .sub{font:600 13px var(--body);color:var(--cream2)}
+.unit-row{display:flex;gap:22px;font:700 10px var(--body);letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:-2px}
+
+.status{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;font:800 13px var(--body);letter-spacing:.04em;background:rgba(127,199,122,.12);color:var(--green);border:1px solid rgba(127,199,122,.3)}
+.status.sale{background:rgba(239,107,74,.14);color:#ff9a7a;border-color:rgba(239,107,74,.4)}
+.status.sale .dot{background:var(--danger)}
+.status.dead{background:rgba(168,145,122,.12);color:var(--muted);border-color:var(--line)}
+.status.dead .dot{background:var(--muted);animation:none}
+.tracker h3{font-size:clamp(30px,3.6vw,46px);margin:18px 0 12px}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0}
+.meta>div{padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.meta .k{font:700 10px var(--body);letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.meta .v{font:800 16px var(--mono);color:var(--cream);margin-top:6px}
+.meta .v small{display:block;font:600 12px var(--body);color:var(--cream2);margin-top:3px}
+.timeline{position:relative;margin:40px 0 10px;padding-top:6px}
+.tl-track{position:relative;height:10px;border-radius:10px;background:rgba(243,227,204,.08)}
+.tl-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:10px;background:linear-gradient(90deg,var(--green),var(--gold) 60%,var(--danger));transition:width 1s linear}
+.tl-now{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--cream);transform:translate(-50%,-50%);box-shadow:0 0 0 6px rgba(243,227,204,.15),0 0 20px rgba(242,180,90,.8);transition:left 1s linear}
+.tl-zone{position:absolute;top:0;bottom:0;left:83.333%;right:0;border-radius:0 10px 10px 0;background:repeating-linear-gradient(45deg,rgba(239,107,74,.35) 0 6px,transparent 6px 12px)}
+.tl-marks{position:relative;height:66px;margin-top:10px}
+.tl-mark{position:absolute;transform:translateX(-50%);text-align:center;font:600 12px var(--body);color:var(--cream2);white-space:nowrap}
+.tl-mark b{display:block;font:800 13px var(--mono);color:var(--cream)}
+.tl-mark::before{content:"";display:block;width:2px;height:10px;background:rgba(243,227,204,.3);margin:0 auto 6px}
+.tl-mark:first-child{transform:none;text-align:left}.tl-mark:first-child::before{margin-left:0}
+.tl-mark:last-child{transform:translateX(-100%);text-align:right}.tl-mark:last-child::before{margin-right:0}
+.salebox{display:none;margin-top:18px;padding:18px 20px;border-radius:18px;background:linear-gradient(135deg,rgba(239,107,74,.2),rgba(224,149,47,.1));border:1px dashed rgba(239,107,74,.6);align-items:center;gap:16px}
+.salebox.on{display:flex}
+.salebox b{font:900 34px var(--display);color:#ffb08f}
+.salebox s{color:var(--muted)}
+
+/* FLAVOURS */
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.flavours{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px;perspective:1200px}
+.fl{position:relative;border-radius:var(--r);padding:26px 22px 24px;background:var(--card);border:1px solid var(--line);overflow:hidden;
+  transform-style:preserve-3d;transition:transform .2s ease-out,border-color .3s;min-height:470px;display:flex;flex-direction:column;--c1:#2a1a10;--c2:#0f0805;--acc:var(--caramel)}
+.fl:hover{border-color:color-mix(in srgb,var(--acc) 55%,transparent)}
+.fl::before{content:"";position:absolute;inset:auto -30% -40% -30%;height:70%;background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--acc) 40%,transparent),transparent 65%);transition:opacity .4s;opacity:.55}
+.fl:hover::before{opacity:1}
+.fl .glare{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.10),transparent 45%)}
+.fl .tag{align-self:flex-start;font:800 10px var(--body);letter-spacing:.2em;padding:6px 10px;border-radius:999px;background:rgba(243,227,204,.08);color:var(--cream2);text-transform:uppercase}
+.fl.hero-f .tag{background:var(--caramel);color:var(--bg)}
+.minibottle{height:180px;margin:20px auto 16px;transform:translateZ(40px);filter:drop-shadow(0 24px 24px rgba(0,0,0,.55));transition:transform .4s}
+.fl:hover .minibottle{transform:translateZ(60px) translateY(-6px) rotate(-4deg)}
+.fl h3{font-size:28px;transform:translateZ(30px)}
+.fl .kind{font:800 10px var(--body);letter-spacing:.22em;color:var(--acc);margin:8px 0 12px;text-transform:uppercase}
+.fl p{font-size:14.5px;color:var(--cream2);flex:1}
+.fl .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.fl .chips span{font:700 11px var(--body);padding:5px 9px;border-radius:8px;border:1px solid var(--line);color:var(--cream2)}
+
+/* JOURNEY */
+.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:64px;position:relative}
+.journey::before{content:"";position:absolute;left:0;right:0;top:31px;height:2px;background:rgba(243,227,204,.1)}
+.journey .jline{position:absolute;left:0;top:31px;height:2px;width:0;background:linear-gradient(90deg,var(--gold),var(--caramel));transition:width 2.2s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 12px var(--caramel)}
+.journey.in .jline{width:100%}
+.step{position:relative}
+.step .n{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:800 22px var(--mono);background:var(--bg);border:2px solid rgba(243,227,204,.18);position:relative;z-index:1;transition:.5s}
+.journey.in .step .n{border-color:var(--caramel);background:var(--card2);color:var(--gold)}
+.journey.in .step:nth-child(3) .n{transition-delay:.5s}.journey.in .step:nth-child(4) .n{transition-delay:1s}.journey.in .step:nth-child(5) .n{transition-delay:1.6s}
+.step .time{font:800 12px var(--mono);color:var(--caramel);margin:22px 0 8px;letter-spacing:.06em}
+.step h3{font-size:24px;margin-bottom:10px}
+.step p{font-size:14.5px;color:var(--cream2)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:28px;overflow:hidden;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.stat{padding:clamp(26px,3.4vw,44px);border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .big{font:900 clamp(40px,5vw,68px)/1 var(--display);color:var(--cream);letter-spacing:-.03em}
+.stat .big sup{font-size:.42em;color:var(--caramel);vertical-align:top;margin-left:2px}
+.stat p{color:var(--muted);font-size:14px;margin-top:12px}
+
+/* COMPARE */
+.cmp-wrap{margin-top:56px;border-radius:26px;border:1px solid var(--line);overflow:auto;background:var(--bg2)}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th,td{padding:20px 22px;text-align:left;font-size:14.5px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+thead th{font:800 11px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+thead th small{display:block;font:500 12px var(--body);letter-spacing:0;text-transform:none;color:var(--cream2);margin-top:4px}
+tbody th{font:700 13px var(--body);color:var(--cream2);width:140px}
+td{color:var(--cream2)}
+.gh{background:linear-gradient(180deg,rgba(224,149,47,.16),rgba(224,149,47,.06));color:var(--cream);font-weight:700;position:relative}
+thead .gh{color:var(--gold);font-size:13px}
+thead .gh small{color:var(--cream)}
+
+/* FRIDGE */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.photo{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:.9;box-shadow:0 50px 100px -40px rgba(0,0,0,.9)}
+.photo img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.2s}
+.photo:hover img{transform:scale(1.14)}
+.photo .tagline{position:absolute;left:18px;bottom:18px;right:18px;padding:16px 18px;border-radius:16px;background:rgba(20,12,8,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center;gap:10px;font:700 14px var(--body)}
+.feat{display:grid;gap:14px;margin-top:34px}
+.feat div{display:flex;gap:16px;align-items:flex-start;padding:18px;border-radius:18px;background:var(--card);border:1px solid var(--line);transition:transform .3s,border-color .3s}
+.feat div:hover{transform:translateX(8px);border-color:rgba(224,149,47,.4)}
+.feat .ic{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(224,149,47,.15);color:var(--amber)}
+.feat h4{font:800 16px var(--body);margin-bottom:4px}
+.feat p{font-size:14px;color:var(--cream2)}
+.apps{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.apps span{font:800 13px var(--body);padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(243,227,204,.04)}
+
+/* PLAN */
+.years{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.yr{padding:30px 26px;border-radius:24px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
+.yr:nth-child(3){background:linear-gradient(160deg,#3a2414,var(--card) 60%);border-color:rgba(224,149,47,.35)}
+.yr .ph{font:800 11px var(--body);letter-spacing:.2em;color:var(--caramel);text-transform:uppercase}
+.yr .rev{font:900 clamp(40px,4.4vw,58px)/1 var(--display);margin:18px 0 6px}
+.yr .rev small{font:600 14px var(--body);color:var(--muted);margin-left:6px}
+.yr .eb{display:inline-block;font:800 12px var(--mono);padding:5px 10px;border-radius:8px;background:rgba(127,199,122,.12);color:var(--green)}
+.yr .eb.neg{background:rgba(239,107,74,.12);color:#ff9a7a}
+.yr ul{list-style:none;margin-top:22px;display:grid;gap:10px;border-top:1px solid var(--line);padding-top:20px}
+.yr li{display:flex;justify-content:space-between;font-size:14px;color:var(--cream2)}
+.yr li b{color:var(--cream);font-family:var(--mono)}
+.revbar{height:6px;border-radius:6px;background:rgba(243,227,204,.08);margin-top:20px;overflow:hidden}
+.revbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--caramel));border-radius:6px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+
+/* CTA */
+.final{text-align:center;overflow:hidden}
+.final .bgimg{position:absolute;inset:0;background:url(assets/beans.webp) center/cover;opacity:.22;mask-image:radial-gradient(ellipse at center,#000 20%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 72%)}
+.final h2{font-size:clamp(46px,8vw,120px);position:relative}
+.final .lede{margin:22px auto 0;position:relative}
+.final .ctas{justify-content:center;position:relative}
+footer{border-top:1px solid var(--line);padding:40px 0 calc(40px + env(safe-area-inset-bottom))}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer p{color:var(--muted);font-size:14px}
+footer .team{font:700 14px var(--body);color:var(--cream2)}
+footer .team b{color:var(--caramel);letter-spacing:.18em;font-size:11px;display:block;margin-bottom:4px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:80;display:flex;align-items:center;gap:14px;padding:14px 18px 14px 14px;border-radius:18px;
+  background:var(--cream);color:var(--bg);box-shadow:0 30px 60px -10px rgba(0,0,0,.7);transition:transform .7s cubic-bezier(.2,1.2,.3,1);width:max-content;max-width:calc(100% - 32px)}
+.toast.show{transform:translate(-50%,0)}
+.toast .q{flex:none;width:42px;height:42px;border-radius:12px;background:var(--bg);color:var(--gold);display:grid;place-items:center}
+.toast b{display:block;font:800 15px var(--body)}
+.toast span{font-size:13px;color:#5a4636}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* RESPONSIVE */
+@media (max-width:1020px){
+  .navlinks{display:none}
+  .hero .wrap,.tracker,.split{grid-template-columns:1fr}
+  .stage{max-width:420px;margin-top:20px}
+  .flavours{grid-template-columns:repeat(2,1fr)}
+  .journey{grid-template-columns:repeat(2,1fr);row-gap:44px}
+  .journey::before,.journey .jline{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .years{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  nav{padding:8px 8px 8px 18px}
+  .brand small{display:none}
+  .eyebrow{letter-spacing:.18em;font-size:11px}
+  .livepill{padding:9px 12px;font-size:12px}
+  .hero{padding-top:110px}
+  .badge,.badge-core{width:110px;height:110px;left:-14px;top:4%}
+  .badge-core b{width:52px;height:52px;font-size:17px}
+  .floatcard{right:-6px;min-width:180px;padding:12px 14px}
+  .floatcard .v{font-size:22px}
+  .ice.i2{right:-8px}
+  .flavours{grid-template-columns:1fr}
+  .fl{min-height:0}
+  .journey{grid-template-columns:1fr}
+  .meta{grid-template-columns:1fr 1fr}
+  .meta>div:last-child{grid-column:span 2}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:22px 18px}
+  .tl-mark{font-size:10.5px}.tl-mark b{font-size:11px}
+  .scrollhint{display:none}
+  .marquee{margin:10px -20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<canvas id="bubbles" aria-hidden="true"></canvas>
+<div id="cursorGlow" aria-hidden="true"></div>
+
+<header>
+  <nav id="nav">
+    <a href="#top" class="brand" aria-label="Ghunt home">gh<span class="u">u</span>nt<small>Cold Coffee Co.</small></a>
+    <div class="navlinks">
+      <a href="#batch">Freshness</a>
+      <a href="#flavours">Flavours</a>
+      <a href="#journey">Brew&nbsp;to&nbsp;fridge</a>
+      <a href="#why">Why Ghunt</a>
+      <a href="#plan">The plan</a>
+    </div>
+    <a href="#batch" class="livepill"><span class="dot"></span><span data-t="short">--:--:--</span></a>
+  </nav>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow fadeup" style="animation-delay:.05s">Formerly Theka Coffee · Now Ghunt</span>
+      <h1>
+        <span class="line"><span>Fresh for</span></span>
+        <span class="line"><span><em>72 hours.</em></span></span>
+        <span class="line"><span>Then gone.</span></span>
+      </h1>
+      <p class="lede fadeup" style="animation-delay:.45s">Single-estate Arabica, cold-steeped for 16 hours, nitrogen-flushed into amber glass with zero preservatives. Every bottle carries its own 72-hour clock. <b style="color:var(--cream)">Sip the chill, feel the thrill.</b></p>
+      <div class="ctas fadeup" style="animation-delay:.6s">
+        <a href="#batch" class="btn btn-primary">Track this batch
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#flavours" class="btn btn-ghost">Meet the flavours</a>
+      </div>
+      <div class="fadeup" style="animation-delay:.75s;margin-top:28px">
+        <div class="minitimer"><span class="dot" data-dot></span><span class="lbl">Batch GH-1211 ends in</span><span class="t" data-t="long">--:--:--</span></div>
+      </div>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="halo"></div>
+      <div class="arch"><img src="assets/bottle.webp" alt="Ghunt cold coffee in an amber glass bottle on ice, labelled 72:00 hours fresh" width="860" height="1371" fetchpriority="high"></div>
+      <svg class="badge" viewBox="0 0 150 150" aria-hidden="true">
+        <defs><path id="circ" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs>
+        <circle cx="75" cy="75" r="74" fill="#140c08" stroke="rgba(243,227,204,.2)"/>
+        <text><textPath href="#circ">72 hours fresh • zero preservatives • </textPath></text>
+      </svg>
+      <div class="badge-core" aria-hidden="true"><b>72h</b></div>
+      <div class="ice i1"></div><div class="ice i2"></div>
+      <div class="floatcard">
+        <div class="k"><span class="dot" data-dot></span><span data-status-short>Peak fresh</span></div>
+        <div class="v" data-t="long">--:--:--</div>
+        <div class="bar"><i data-bar></i></div>
+      </div>
+      <div class="pricechip">₹<b>129</b><span style="font-size:12px;line-height:1.2;font-weight:700">250 ml<br>amber glass</span></div>
+    </div>
+  </div>
+  <div class="scrollhint"><i></i>Scroll</div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="mq1"></div></div>
+<div class="marquee alt" aria-hidden="true"><div class="track" id="mq2"></div></div>
+
+<!-- TRACKER -->
+<section id="batch">
+  <div class="wrap">
+    <div class="head-row rv">
+      <div>
+        <span class="eyebrow">Live freshness tracker</span>
+        <h2 style="margin-top:18px">Every bottle has a <em>clock.</em></h2>
+      </div>
+      <p class="lede">You scanned the QR on the bottle. This is its batch, live. When the clock hits zero, it's off the shelf. No preservatives means no second chances.</p>
+    </div>
+
+    <div class="tracker">
+      <div class="dial rv" id="dial">
+        <svg viewBox="0 0 400 400" aria-hidden="true">
+          <defs>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffcf7a"/><stop offset=".6" stop-color="#e0952f"/><stop offset="1" stop-color="#c0522f"/>
+            </linearGradient>
+          </defs>
+          <g class="ticks" id="ticks"></g>
+          <circle class="ring-bg" cx="200" cy="200" r="170"/>
+          <circle class="ring" id="ring" cx="200" cy="200" r="170"/>
+        </svg>
+        <div class="dial-inner">
+          <div class="liquid" id="liquid">
+            <svg viewBox="0 0 800 20" preserveAspectRatio="none" class="w2"><path d="M0 10 Q50 0 100 10 T200 10 T300 10 T400 10 T500 10 T600 10 T700 10 T800 10 V20 H0Z" fill="#8a4a1a"/></svg>
+            <svg viewBox="0 0 800 20" preserveAspectRatio="none" class="w1"><path d="M0 12 Q50 2 100 12 T200 12 T300 12 T400 12 T500 12 T600 12 T700 12 T800 12 V20 H0Z" fill="#b86a24"/></svg>
+            <div class="body"></div>
+            <div class="fizz" id="fizz"></div>
+          </div>
+          <div class="readout">
+            <span class="k">Time left</span>
+            <div class="digits" id="digits" aria-live="off"></div>
+            <div class="unit-row"><span>hrs</span><span>min</span><span>sec</span></div>
+            <span class="sub" style="margin-top:12px"><span id="pct">--</span>% fresh</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv d1">
+        <span class="status" id="status"><span class="dot"></span><span id="statusText">Peak fresh</span></span>
+        <h3 id="statusHead">Brewed. Bottled. Still ice-cold perfect.</h3>
+        <p class="lede" id="statusBody">This batch is in its prime window. Grab it, shake it, sip it cold.</p>
+
+        <div class="meta">
+          <div><div class="k">Batch</div><div class="v">GH-1211<small>Single-estate Arabica</small></div></div>
+          <div><div class="k">Bottled</div><div class="v" id="brewedAt">--<small>--</small></div></div>
+          <div><div class="k">Expires</div><div class="v" id="expiresAt">--<small>--</small></div></div>
+        </div>
+
+        <div class="timeline">
+          <div class="tl-track"><div class="tl-zone" title="Hour-60 flash sale"></div><div class="tl-fill" id="tlFill"></div><div class="tl-now" id="tlNow"></div></div>
+          <div class="tl-marks">
+            <div class="tl-mark" style="left:0"><b>0h</b>Bottled</div>
+            <div class="tl-mark" style="left:50%"><b>36h</b>Halfway</div>
+            <div class="tl-mark" style="left:83.33%"><b>60h</b>Flash sale</div>
+            <div class="tl-mark" style="left:100%"><b>72h</b>Off shelf</div>
+          </div>
+        </div>
+
+        <div class="salebox" id="salebox">
+          <b>₹65</b>
+          <div><strong style="font-size:16px">Hour-60 flash sale is live</strong><br><span style="color:var(--cream2);font-size:14px"><s>₹129</s> · 50% off until the clock runs out. Zero waste, all chill.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="stats rv">
+      <div class="stat"><div class="big">₹<span data-count="129">0</span></div><p>a bottle. One-third of a ₹350 café cold brew.</p></div>
+      <div class="stat"><div class="big"><span data-count="72">0</span><sup>hrs</sup></div><p>of shelf life. Zero preservatives, by design.</p></div>
+      <div class="stat"><div class="big"><span data-count="16">0</span><sup>hrs</sup></div><p>cold-steeped at 4 °C in automated tanks.</p></div>
+      <div class="stat"><div class="big">&lt;<span data-count="2.8" data-dec="1">0</span><sup>%</sup></div><p>spoilage, thanks to the Hour-60 flash sale.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FLAVOURS -->
+<section id="flavours">
+  <div class="wrap">
+    <div class="head-row rv">
+      <div>
+        <span class="eyebrow">The line-up</span>
+        <h2 style="margin-top:18px">Built for <em>Indian</em><br>taste buds.</h2>
+      </div>
+      <p class="lede">Not just black cold brew. Four bottles, four moods, from the 9 AM stand-up to the 6 PM gym session.</p>
+    </div>
+    <div class="flavours" id="flgrid">
+      <article class="fl rv" style="--acc:#d6a36a">
+        <span class="tag">Zero sugar</span>
+        <svg class="minibottle" data-liquid="#1e0f07" viewBox="0 0 80 200"></svg>
+        <h3>Kadak Classic</h3>
+        <div class="kind">Pure black cold brew</div>
+        <p>Zero sugar, zero milk, 180 mg caffeine. Built for coders, founders and gym-goers.</p>
+        <div class="chips"><span>180 mg caffeine</span><span>Black</span></div>
+      </article>
+      <article class="fl hero-f rv d1" style="--acc:#e0952f">
+        <span class="tag">★ Hero</span>
+        <svg class="minibottle" data-liquid="#9b5a24" viewBox="0 0 80 200"></svg>
+        <h3>Palang Tod</h3>
+        <div class="kind">Double-shot Vietnamese</div>
+        <p>Dark-roast cold brew swirled with caramelised condensed milk. Our crowd-pleaser.</p>
+        <div class="chips"><span>Double shot</span><span>Condensed milk</span></div>
+      </article>
+      <article class="fl rv d2" style="--acc:#c9b48a">
+        <span class="tag">Plant-based</span>
+        <svg class="minibottle" data-liquid="#a88158" viewBox="0 0 80 200"></svg>
+        <h3>Hazelnut &amp; Oat</h3>
+        <div class="kind">Plant-based creamer brew</div>
+        <p>Roasted hazelnut extract and preservative-free oat milk. Zero refined sugar.</p>
+        <div class="chips"><span>Vegan</span><span>No refined sugar</span></div>
+      </article>
+      <article class="fl rv d3" style="--acc:#e0566e">
+        <span class="tag">Sparkling</span>
+        <svg class="minibottle" data-liquid="#7a2632" viewBox="0 0 80 200"></svg>
+        <h3>Kokum &amp; Citrus</h3>
+        <div class="kind">Sparkling cold brew tonic</div>
+        <p>Bright Arabica cold brew meets coastal kokum-citrus fizz. Summer in a bottle.</p>
+        <div class="chips"><span>Fizzy</span><span>Kokum</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey" style="background:linear-gradient(180deg,transparent,var(--bg2) 30%,var(--bg2) 70%,transparent)">
+  <div class="wrap">
+    <div class="rv" style="max-width:760px">
+      <span class="eyebrow">Brew to bottle to fridge</span>
+      <h2 style="margin-top:18px">Brewed while you sleep. <em>In your hand by 7.</em></h2>
+    </div>
+    <div class="journey" id="jr">
+      <div class="jline"></div>
+      <div class="step"><div class="n">01</div><div class="time">8 PM – 4 AM</div><h3>Overnight cold brew</h3><p>16 hours cold-steeped at 4 °C in automated tanks at a hyper-local micro-brewery.</p></div>
+      <div class="step"><div class="n">02</div><div class="time">4 – 5:30 AM</div><h3>Nitrogen-flush bottling</h3><p>Micro-filtered, nitrogen-flushed and sealed in amber glass with a 72:00 stamp.</p></div>
+      <div class="step"><div class="n">03</div><div class="time">5:30 – 7 AM</div><h3>Hyper-local milk run</h3><p>Electric vans carry insulated crates within 15 km to dark stores and office fridges.</p></div>
+      <div class="step"><div class="n">04</div><div class="time">Hour 60</div><h3>QR tracking + flash sale</h3><p>QR batch codes track every bottle. Unsold stock drops 50% at hour 60.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap">
+    <div class="head-row rv">
+      <div>
+        <span class="eyebrow">Why Ghunt wins</span>
+        <h2 style="margin-top:18px">Café quality.<br><em>Quick-commerce</em> speed.</h2>
+      </div>
+      <p class="lede">Specialty cafés are pricey and slow. Bottled brands are months old. Street coffee is powder and sugar. Ghunt sits right in the gap.</p>
+    </div>
+    <div class="cmp-wrap rv d1">
+      <table>
+        <thead><tr><th></th><th>Specialty cafés<small>Starbucks, third-wave</small></th><th>Bottled RTD<small>Sleepy Owl, Nescafé</small></th><th>Street &amp; instant<small>Tapri, vending</small></th><th class="gh">Ghunt<small>72-hour bio-fresh</small></th></tr></thead>
+        <tbody>
+          <tr><th>Price</th><td>₹250–400</td><td>₹110–160</td><td>₹20–50</td><td class="gh">₹129</td></tr>
+          <tr><th>Shelf life</th><td>Fresh, no preservatives</td><td>6–12 months, heat processed</td><td>Fresh, but powder and sugar</td><td class="gh">72 hours, zero preservatives</td></tr>
+          <tr><th>Coffee</th><td>Specialty Arabica</td><td>Arabica, heat treated</td><td>Instant spray-dried powder</td><td class="gh">Single-estate Arabica</td></tr>
+          <tr><th>Convenience</th><td>Café visit or 35-min delivery</td><td>Supermarket shelf</td><td>Street corners</td><td class="gh">10-min quick commerce, office fridges</td></tr>
+          <tr><th>Brand vibe</th><td>Upscale, intimidating</td><td>Generic, warehouse-aged</td><td>Mass, unhygienic</td><td class="gh">Bold, youthful, bio-fresh ritual</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FRIDGE -->
+<section id="find" style="padding-top:0">
+  <div class="wrap split">
+    <div class="photo rv"><img src="assets/fridge.webp" alt="Ghunt smart fridge in an office with tap-to-pay screen and bottle return slot" loading="lazy" width="900" height="1022">
+      <div class="tagline"><span>72:00 hrs · fresh batch dropped</span><span class="dot"></span></div></div>
+    <div class="rv d1">
+      <span class="eyebrow">Where to find it</span>
+      <h2 style="margin-top:18px">Tap. Gulp. <em>Return.</em></h2>
+      <p class="lede" style="margin-top:18px">The 7 AM drop lands on quick-commerce apps and in smart fridges at tech parks and premium gyms.</p>
+      <div class="feat">
+        <div><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg></span><div><h4>10-minute delivery</h4><p>Blinkit, Zepto and Swiggy Instamart. Batches sell out by noon.</p></div></div>
+        <div><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M4 9h16M8 5v1M8 12v3"/></svg></span><div><h4>Tap-to-pay smart fridges</h4><p>Grade-A offices and gyms like Cult.fit and Gold's Gym. Scan, pay ₹129, done.</p></div></div>
+        <div><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-2.7L7 9.5M12 4.5l1.5-2.6a1.8 1.8 0 0 1 3.1 0L21 9.5M17 19h4.2a1.8 1.8 0 0 0 1.6-2.7"/><path d="m10 16-3 3 3 3M14 7l-2-3-3 1M20 13l1 4-4 1"/></svg></span><div><h4>Return the bottle, get cashback</h4><p>Drop empties in the fridge's return slot for instant UPI cashback. Go green.</p></div></div>
+      </div>
+      <div class="apps"><span>Blinkit</span><span>Zepto</span><span>Swiggy Instamart</span><span>Smart fridges</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan" style="background:linear-gradient(180deg,transparent,var(--bg2) 40%,transparent)">
+  <div class="wrap">
+    <div class="head-row rv">
+      <div>
+        <span class="eyebrow">The plan</span>
+        <h2 style="margin-top:18px">From 2 hubs to <em>₹200 Cr</em><br>in three years.</h2>
+      </div>
+      <p class="lede">₹54 gross profit on every bottle (60% margin). One micro-brewery costs ₹18 L to set up and pays back in about 7.5 months.</p>
+    </div>
+    <div class="years" id="years">
+      <div class="yr rv"><div class="ph">Year 1 · Validation</div><div class="rev">₹17.1<small>Cr net revenue</small></div><span class="eb neg">EBITDA −12%</span><div class="revbar"><i data-w="8.6"></i></div>
+        <ul><li>Hubs <b>2</b></li><li>Smart fridges <b>50</b></li><li>Bottles a year <b>19 lakh</b></li><li>Cities <b>Bengaluru, NCR</b></li></ul></div>
+      <div class="yr rv d1"><div class="ph">Year 2 · Metro dominance</div><div class="rev">₹71.2<small>Cr net revenue</small></div><span class="eb">EBITDA 12%</span><div class="revbar"><i data-w="35.6"></i></div>
+        <ul><li>Hubs <b>8</b></li><li>Smart fridges <b>250</b></li><li>Bottles a year <b>79.1 lakh</b></li><li>Cities <b>Top 4 metros</b></li></ul></div>
+      <div class="yr rv d2"><div class="ph">Year 3 · National scale</div><div class="rev">₹199.8<small>Cr net revenue</small></div><span class="eb">EBITDA 20%</span><div class="revbar"><i data-w="100"></i></div>
+        <ul><li>Hubs <b>20</b></li><li>Smart fridges <b>800</b></li><li>Bottles a year <b>2.22 crore</b></li><li>Cities <b>Top 6 metros</b></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <div class="bgimg"></div>
+  <div class="wrap rv">
+    <span class="eyebrow">Ghunt Cold Coffee Co.</span>
+    <h2 style="margin-top:22px">Sip the chill,<br><em>feel the thrill.</em></h2>
+    <p class="lede">The clock on this batch is still ticking. <span data-t="long" style="font-family:var(--mono);color:var(--gold);font-weight:800">--:--:--</span> left.</p>
+    <div class="ctas"><a href="#batch" class="btn btn-primary">Check freshness</a><a href="#flavours" class="btn btn-ghost">Pick your ghunt</a></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="brand">gh<span class="u">u</span>nt<small>Cold Coffee Co.</small></a>
+    <div class="team"><b>TEAM THINK TANK</b>Ridhima Jaswal · Sanvi Aggarwal</div>
+    <p>Freshly brewed. 72 hours of pure chill.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status">
+  <span class="q"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg></span>
+  <div><b>Bottle scanned ✓</b><span>Batch GH-1211 · <span data-t="long">--:--:--</span> of freshness left</span></div>
+</div>
+
+<script>
+(() => {
+  const qs = new URLSearchParams(location.search);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- BATCH CLOCK ----------
+     Bottled 12 Nov 2026, 12:00 AM IST. 72-hour freshness window. */
+  const START = new Date(qs.get('brewed') || '2026-11-12T00:00:00+05:30').getTime();
+  const TOTAL = 72 * 3600 * 1000;
+  const END = START + TOTAL;
+  const SALE = START + 60 * 3600 * 1000;
+
+  const fmtDate = d => d.toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short'});
+  const fmtTime = d => d.toLocaleString('en-IN',{timeZone:'Asia/Kolkata',hour:'numeric',minute:'2-digit',hour12:true}).toUpperCase() + ' IST';
+  const setMeta = (id, t) => { const d = new Date(t); document.getElementById(id).innerHTML = `${fmtDate(d)}<small>${fmtTime(d)}</small>`; };
+  setMeta('brewedAt', START); setMeta('expiresAt', END);
+
+  const pad = n => String(n).padStart(2,'0');
+  const split = ms => { const s = Math.max(0, Math.floor(ms/1000)); return [Math.floor(s/3600), Math.floor(s%3600/60), s%60]; };
+
+  // ring
+  const ring = document.getElementById('ring');
+  const C = 2 * Math.PI * 170;
+  ring.style.strokeDasharray = C;
+  // ticks
+  const ticks = document.getElementById('ticks');
+  for (let i = 0; i < 72; i++) {
+    const a = (i / 72) * Math.PI * 2 - Math.PI/2, major = i % 6 === 0;
+    const r1 = 188, r2 = major ? 200 : 195;
+    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1', 200 + r1*Math.cos(a)); l.setAttribute('y1', 200 + r1*Math.sin(a));
+    l.setAttribute('x2', 200 + r2*Math.cos(a)); l.setAttribute('y2', 200 + r2*Math.sin(a));
+    if (major) l.classList.add('major');
+    ticks.appendChild(l);
+  }
+  // hour-60 marker on ring
+  { const a = (60/72)*Math.PI*2 - Math.PI/2; const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx', 200+170*Math.cos(a)); c.setAttribute('cy', 200+170*Math.sin(a)); c.setAttribute('r', 5); c.setAttribute('class','ring-mark'); ticks.appendChild(c); }
+
+  // flip digits
+  const digitsEl = document.getElementById('digits');
+  const cells = [];
+  ['h','h','h',':','m','m',':','s','s'].forEach(k => {
+    if (k === ':') { const s = document.createElement('span'); s.className = 'sep'; s.textContent = ':'; digitsEl.appendChild(s); return; }
+    const d = document.createElement('span'); d.className = 'dg'; const inner = document.createElement('span'); inner.textContent = '0'; d.appendChild(inner); digitsEl.appendChild(d); cells.push(d);
+  });
+  const setDigit = (cell, ch) => {
+    const cur = cell.lastElementChild;
+    if (cur.textContent === ch) return;
+    if (reduce) { cur.textContent = ch; return; }
+    const nx = document.createElement('span'); nx.textContent = ch; nx.className = 'in'; cell.appendChild(nx);
+    requestAnimationFrame(() => { cur.classList.add('out'); nx.classList.remove('in'); });
+    setTimeout(() => cur.remove(), 460);
+  };
+
+  // fizz bubbles inside dial
+  const fizz = document.getElementById('fizz');
+  for (let i = 0; i < 18; i++) { const b = document.createElement('b'); const s = 3 + Math.random()*7;
+    Object.assign(b.style,{left:(Math.random()*100)+'%',width:s+'px',height:s+'px',animationDuration:(3+Math.random()*5)+'s',animationDelay:(-Math.random()*6)+'s'}); fizz.appendChild(b); }
+
+  const liquid = document.getElementById('liquid');
+  const tlFill = document.getElementById('tlFill'), tlNow = document.getElementById('tlNow');
+  const statusEl = document.getElementById('status'), statusText = document.getElementById('statusText');
+  const statusHead = document.getElementById('statusHead'), statusBody = document.getElementById('statusBody');
+  const salebox = document.getElementById('salebox'), pctEl = document.getElementById('pct');
+  const longEls = document.querySelectorAll('[data-t="long"]'), shortEls = document.querySelectorAll('[data-t="short"]');
+  const bars = document.querySelectorAll('[data-bar]'), shortStatus = document.querySelectorAll('[data-status-short]');
+  let lastPhase = '';
+
+  function phaseFor(now){
+    const h = (now - START) / 3600000;
+    if (now < START) return ['soon','Brewing now','Steeping overnight. Your bottle is on its way.','This batch is still cold-steeping at 4 °C. The clock starts the moment it is bottled.'];
+    if (now >= END) return ['dead','Off the shelf','This batch has retired.','72 hours are up, so this bottle is past its prime. Drop it in any Ghunt fridge return slot for UPI cashback, and grab tomorrow\'s 7 AM drop.'];
+    if (now >= SALE) return ['sale','Flash sale · 50% off','Hour 60. Last call, half price.','The final 12 hours of this batch. Still fresh, now ₹65. Zero waste, all chill.'];
+    if (h < 24) return ['fresh','Peak fresh','Brewed. Bottled. Ice-cold perfect.','This batch is in its prime window. Shake it, chill it, sip it cold.'];
+    if (h < 48) return ['fresh','Fresh','Day two. Still bold, still smooth.','Single-estate Arabica holds its character beautifully. Best enjoyed today.'];
+    return ['fresh','Fresh · drink soon','Day three. Make it count.','The clock is ticking on this batch. Perfect for today\'s stand-up or post-gym sip.'];
+  }
+
+  function tick(){
+    const now = Date.now();
+    const left = Math.min(TOTAL, Math.max(0, END - now));
+    const frac = left / TOTAL;
+    const [h,m,s] = split(left);
+    const long = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    longEls.forEach(e => e.textContent = long);
+    shortEls.forEach(e => e.textContent = left > 0 ? long : 'EXPIRED');
+    const str = String(h).padStart(3,'0') + pad(m) + pad(s);
+    // hide leading zero hour cell when < 100h
+    cells[0].style.display = h >= 100 ? '' : 'none';
+    [...str].forEach((ch,i) => setDigit(cells[i], ch));
+
+    // remaining arc runs from "now" (elapsed angle) round to the 72h mark at 12 o'clock
+    ring.style.strokeDasharray = `${C * frac} ${C}`;
+    ring.style.strokeDashoffset = -C * (1 - frac);
+    liquid.style.height = (8 + frac * 80) + '%';
+    const elapsed = 1 - frac;
+    tlFill.style.width = (elapsed*100) + '%'; tlNow.style.left = (elapsed*100) + '%';
+    bars.forEach(b => b.style.width = (frac*100) + '%');
+    pctEl.textContent = Math.round(frac*100);
+
+    const [ph, label, head, body] = phaseFor(now);
+    shortStatus.forEach(e => e.textContent = label);
+    if (ph !== lastPhase) {
+      lastPhase = ph;
+      statusEl.className = 'status' + (ph === 'sale' ? ' sale' : ph === 'dead' ? ' dead' : '');
+      statusText.textContent = label; statusHead.textContent = head; statusBody.textContent = body;
+      salebox.classList.toggle('on', ph === 'sale');
+      document.querySelectorAll('[data-dot]').forEach(d => d.style.background = ph === 'sale' ? 'var(--danger)' : ph === 'dead' ? 'var(--muted)' : '');
+    }
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- QR scan arrival ---------- */
+  if (qs.has('scan')) {
+    setTimeout(() => document.getElementById('batch').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}), 900);
+    const t = document.getElementById('toast');
+    setTimeout(() => t.classList.add('show'), 1300);
+    setTimeout(() => t.classList.remove('show'), 7500);
+  }
+
+  /* ---------- marquees ---------- */
+  const words1 = ['72 hours fresh','Zero preservatives','Single-estate Arabica','₹129 a bottle','Cold-steeped 16 hrs','Brewed 4 AM · Delivered 7 AM'];
+  const words2 = ['Sip the chill','Feel the thrill','Palang Tod','Kadak Classic','Hazelnut & Oat','Kokum & Citrus','Return. Recycle. Repeat.'];
+  const fill = (id, w) => { const el = document.getElementById(id); const html = w.map(x => `<span>${x}</span>`).join(''); el.innerHTML = html + html + html + html; };
+  fill('mq1', words1); fill('mq2', words2);
+
+  /* ---------- mini bottles ---------- */
+  document.querySelectorAll('.minibottle').forEach((svg, i) => {
+    const c = svg.dataset.liquid, id = 'g' + i;
+    svg.innerHTML = `
+      <defs>
+        <linearGradient id="${id}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset=".35" stop-color="#fff" stop-opacity=".18"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>
+        <clipPath id="c${id}"><path d="M30 6h20v30c0 8 16 18 16 40v108a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10V76c0-22 16-32 16-40z"/></clipPath>
+      </defs>
+      <rect x="28" y="0" width="24" height="10" rx="3" fill="#c99a4a"/>
+      <g clip-path="url(#c${id})">
+        <rect x="0" y="0" width="80" height="200" fill="#5b2f12" opacity=".55"/>
+        <rect x="0" y="62" width="80" height="140" fill="${c}"/>
+        <path d="M0 64 Q20 56 40 64 T80 64 V70 H0Z" fill="${c}"><animateTransform attributeName="transform" type="translate" values="0 0;-6 2;0 0" dur="3s" repeatCount="indefinite"/></path>
+        <rect x="14" y="98" width="52" height="54" fill="#f3e3cc"/>
+        <text x="40" y="122" text-anchor="middle" font-family="Manrope,Arial" font-weight="800" font-size="13" fill="#1c120c">ghunt</text>
+        <text x="40" y="141" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="11" fill="#e0952f">72:00</text>
+        <rect x="0" y="0" width="80" height="200" fill="url(#${id})"/>
+      </g>
+      <path d="M30 6h20v30c0 8 16 18 16 40v108a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10V76c0-22 16-32 16-40z" fill="none" stroke="rgba(255,230,190,.25)"/>`;
+  });
+
+  /* ---------- tilt cards ---------- */
+  if (!reduce && matchMedia('(hover:hover)').matches) {
+    document.querySelectorAll('.fl').forEach(card => {
+      const glare = document.createElement('div'); glare.className = 'glare'; card.appendChild(glare);
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect(), x = (e.clientX - r.left)/r.width, y = (e.clientY - r.top)/r.height;
+        card.style.transform = `rotateY(${(x-.5)*14}deg) rotateX(${(.5-y)*12}deg) translateY(-6px)`;
+        card.style.setProperty('--mx', x*100+'%'); card.style.setProperty('--my', y*100+'%');
+      });
+      card.addEventListener('mouseleave', () => card.style.transform = '');
+    });
+    // hero parallax
+    const stage = document.getElementById('stage');
+    addEventListener('mousemove', e => {
+      const x = e.clientX/innerWidth - .5, y = e.clientY/innerHeight - .5;
+      stage.style.transform = `translate(${x*-14}px, ${y*-14}px)`;
+    });
+  }
+
+  /* ---------- cursor glow ---------- */
+  const glow = document.getElementById('cursorGlow');
+  if (matchMedia('(hover:hover)').matches && !reduce) {
+    let gx = innerWidth/2, gy = innerHeight/2, tx = gx, ty = gy;
+    addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+    (function loop(){ gx += (tx-gx)*.12; gy += (ty-gy)*.12; glow.style.transform = `translate(${gx-260}px, ${gy-260}px)`; requestAnimationFrame(loop); })();
+  } else glow.style.display = 'none';
+
+  /* ---------- nav + progress ---------- */
+  const nav = document.getElementById('nav'), prog = document.getElementById('progress');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', scrollY > 30);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = `scaleX(${max > 0 ? scrollY/max : 0})`;
+  };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ---------- reveal + counters ---------- */
+  const countUp = el => {
+    const target = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), dur = 1600, t0 = performance.now();
+    const step = t => { const p = Math.min(1,(t-t0)/dur), e = 1 - Math.pow(1-p,4); el.textContent = (target*e).toFixed(dec); if (p < 1) requestAnimationFrame(step); };
+    reduce ? el.textContent = target.toFixed(dec) : requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target; el.classList.add('in');
+    el.querySelectorAll('[data-count]').forEach(countUp);
+    el.querySelectorAll('.revbar i').forEach(i => i.style.width = i.dataset.w + '%');
+    io.unobserve(el);
+  }), {threshold:.18, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv, #jr').forEach(el => io.observe(el));
+
+  /* ---------- rising bubbles canvas ---------- */
+  const cv = document.getElementById('bubbles'), ctx = cv.getContext('2d');
+  let W, H, dpr, parts = [];
+  const resize = () => { dpr = Math.min(2, devicePixelRatio||1); W = innerWidth; H = innerHeight; cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
+  resize(); addEventListener('resize', resize);
+  const N = innerWidth < 700 ? 22 : 46;
+  const mk = (y) => ({ x: Math.random()*W, y: y ?? H + Math.random()*H, r: .8 + Math.random()*3.2, v: .15 + Math.random()*.55, a: .08 + Math.random()*.25, w: Math.random()*Math.PI*2 });
+  for (let i = 0; i < N; i++) parts.push(mk(Math.random()*H));
+  if (!reduce) (function draw(){
+    ctx.clearRect(0,0,W,H);
+    for (const p of parts) {
+      p.y -= p.v; p.w += .01; p.x += Math.sin(p.w)*.25;
+      if (p.y < -10) Object.assign(p, mk());
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(242,180,90,${p.a})`; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = `rgba(242,180,90,${p.a*.25})`; ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  })();
+})();
+</script>
+</body>
+</html>
